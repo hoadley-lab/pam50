@@ -1,0 +1,32 @@
+Package: pam50
+Title: Classify Breast Tumor PAM50 Subtype from Gene Expression Data
+Version: 0.1.0
+Authors@R: 
+    person("Ryan", "Videgar-Laird", , "ryanvl@unc.edu", role = c("aut", "cre"))
+Description: Assigns research-based PAM50 molecular subtypes using gene expression from breast cancer tumor samples. This consists of: (1) reading/parsing an input file; (2) optionally imputing missing values; (3) centering PAM50 gene expression levels using median counts (self) or with a pre-defined set of values; and (4) assignment subtypes based on the most highly correlated subtype centroid from pre-existing training data.
+License: MIT + file LICENSE
+Imports:
+    utils,
+    stats,
+    matrixStats,
+    logger,
+    tidyr
+Suggests: 
+    testthat (>= 3.0.0),
+    impute,
+    ggplot2,
+    rlang,
+    ComplexHeatmap,
+    circlize,
+    grDevices,
+    grid
+Remotes:
+    bioc::impute,
+    bioc::ComplexHeatmap
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Depends: 
+    R (>= 4.1.0)
+LazyData: true

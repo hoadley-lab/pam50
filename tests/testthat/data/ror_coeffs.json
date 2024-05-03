@@ -1,0 +1,30 @@
+{
+  "subtype": {
+    "basal": 0.04210193,
+    "her2": 0.12466938,
+    "luminal_a": -0.35235561,
+    "luminal_b": 0.14213283
+  },
+  "clinical": {
+    "basal": 0.044277,
+    "her2": 0.1170297,
+    "luminal_a": -0.2608388,
+    "luminal_b": 0.1055908,
+    "tumor_size": 0.1813751
+  },
+  "prolif": {
+    "basal": -0.0009299747,
+    "her2": 0.0692289192,
+    "luminal_a": -0.0951505484,
+    "luminal_b": 0.0493487685,
+    "prolif_score": 0.3385116381
+  },
+  "prolif_clinial": {
+    "basal": -0.009383416,
+    "her2": 0.073725503,
+    "luminal_a": -0.090436516,
+    "luminal_b": 0.053013865,
+    "tumor_size": 0.13160596,
+    "prolif_score": 0.327259375
+  }
+}

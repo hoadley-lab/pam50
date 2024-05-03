@@ -1,0 +1,18 @@
+{
+  "subtype": {
+    "low": -0.15,
+    "high": 0.1
+  },
+  "clinical": {
+    "low": -0.1,
+    "high": 0.2
+  },
+  "prolif": {
+    "low": -0.25,
+    "high": 0.1
+  },
+  "prolif_clinical": {
+    "low": -0.2,
+    "high": 0.2
+  }
+}

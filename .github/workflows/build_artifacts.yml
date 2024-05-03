@@ -1,0 +1,36 @@
+name: Build pam50 artifacts
+on:
+  workflow_call:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+jobs:
+  build-artifacts:
+    strategy:
+      matrix:
+        systems:
+          - nix-system: x86_64-linux
+            runner: ubuntu-22.04
+            artifact: pam50-full-x86_64-linux
+    runs-on: ${{ matrix.systems.runner }}
+    steps:
+    - name: git checkout
+      uses: actions/checkout@v4
+    
+    - name: install nix
+      uses: DeterminateSystems/nix-installer-action@main
+      with:
+        logger: compact
+    
+    - name: setup nix cache
+      uses: DeterminateSystems/magic-nix-cache-action@main
+    
+    - name: build squashfs image for ${{ matrix.systems.nix-system }}
+      run: |
+        nix build ".#packages.${{ matrix.systems.nix-system }}.sqfs-full"
+
+    - name: upload squashfs artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.systems.artifact }}
+        path: result/pam50-full.sqfs

@@ -1,0 +1,38 @@
+name: release
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: ./.github/workflows/build_artifacts.yml
+
+  release:
+    needs: build
+    concurrency: release
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: create artifacts dir
+        run: mkdir -p ./artifacts
+
+      - name: download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: pam50-full-x86_64-linux
+          path: cache
+      
+      - name: move downloaded artifact
+        run: mv cache/pam50-full.sqfs artifacts/pam50-full-x86_64-linux.sqfs
+
+      - name: publish release (tag)
+        uses: softprops/action-gh-release@v2
+        with:
+          fail_on_unmatched_files: true
+          files: artifacts/*
