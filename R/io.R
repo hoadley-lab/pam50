@@ -28,9 +28,7 @@ read_input <- function(path, delim = "\t") {
   }
 
   logger::log_debug("Checking if input contains all PAM50 genes")
-  input <-
-    subset(input, rownames(input) %in% rownames(pam50::pam50_centroids)) |>
-    as.matrix()
+  input <- pam50::filter_sort(input)
   if (nrow(input) < 50) {
     logger::log_error(paste0(
       "Not all PAM50 genes were found in input file. ",
@@ -64,3 +62,16 @@ read_tumor_sizes <-
 
     tumor_sizes
   }
+
+#' Filter and sort input expression matrix to match PAM50 centroids
+#'
+#' @param input [matrix]; numeric matrix of gene expression with PAM50 gene symbols as row names.
+#' @returns 50 x N_sample numeric matrix with row order matching [pam50::pam50_centroids].
+#' @export
+filter_sort <- function(input) {
+  row_sort <-
+    match(rownames(pam50::pam50_centroids), rownames(input)) |>
+    stats::na.omit() |>
+    as.vector()
+  input[row_sort, ]
+}

@@ -12,10 +12,12 @@
 #'   read_input(file.path("tests", "testthat", "data", "pam50_testdata.tsv"))
 #' out_matx <- preprocess_input(input)
 preprocess_input <- function(input_matx, centers = "self", impute = FALSE) {
+  input_matx <- pam50::filter_sort(input_matx)
   if (impute) {
     logger::log_info("Imputing missing values via KNN averages")
     input_matx <- impute::impute.knn(input_matx)$data
   }
+
 
   if (identical(centers, "self")) {
     logger::log_info("Median centering by self")

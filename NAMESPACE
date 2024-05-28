@@ -3,6 +3,7 @@
 export(assign_subtypes)
 export(calc_proliferation_scores)
 export(calc_ror_scores)
+export(filter_sort)
 export(pam50)
 export(plot_cor_box)
 export(plot_pam50_heatmap)
