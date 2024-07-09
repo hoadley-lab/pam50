@@ -45,7 +45,7 @@ Each function and dataset has some level of documentation. `pam50::pam50()` is t
   5. `calc_ror_scores()`
 
 ### Notes
-The input matrix must contain all PAM50 genes as rows (any extras will be silently removed). Its row names much correspond to the respective HGNC gene symbols. This package includes `pam50::pam50_annot`, a dataset that maps each PAM50 gene symbol to HGNC IDs and Ensembl stable gene IDs. It is up to the user to ensure the input contains matching gene symbols. However, row order does not need to match -- the input will be properly sorted to match `pam50::pam50_centroids`.
+The input matrix must contain all PAM50 genes as rows (any extras will be silently removed). Its row names must correspond to the respective HGNC gene symbols. This package includes `pam50::pam50_annot`, a dataset that maps each PAM50 gene symbol to HGNC IDs and Ensembl stable gene IDs. It is up to the user to ensure the input contains matching gene symbols. However, row order does not need to match -- the input will be properly sorted to match `pam50::pam50_centroids`.
 
 ## Installation
 Given that imputation and QC plots are optional features, their respective dependencies are not included by default. To include them when installing `pam50`, set `dependencies = "Suggests"`.
@@ -61,7 +61,7 @@ remotes::install_github("https://github.com/hoadley-lab/pam50",
 ```
 
 ### Pre-built image
-Given this package will likely be most used in HPC environments, a pre-built SquashFS image is provided that can be ran directly with Apptainer/Singularity. This is the easiest way to get started if you want it to 'just work' without installation. See the tagged releases to download (currently only provided for x86_64 architectures).
+A pre-built SquashFS image is provided that can be ran directly with Apptainer/Singularity. The image contains an R environment with all package dependencies and a slimmed down coreutils. This is the easiest way to get started on if you want it to 'just work' without any installation using Apptainer/Singularity. See [tagged releases](https://github.com/hoadley-lab/pam50/releases) to download (currently only provided for x86_64 architectures).
 
 Its entry runscript is simply `Rscript --vanilla "$@"`, allowing it to be used as such:
 ```bash
@@ -70,7 +70,6 @@ Its entry runscript is simply `Rscript --vanilla "$@"`, allowing it to be used a
 
 apptainer run ./pam50-full-x86_64-linux.sqfs ./scripts/run_pam50.R
 ```
-The image contains an R environment with all package dependencies and a slimmed down coreutils. It can also be used to run an interactive `apptainer shell ...`, or arbitrary commands (`apptainer exec ...`).
-
+  - It can also be used to run an interactive `apptainer shell ...`, or arbitrary commands (`apptainer exec ...`).
 ## Acknowledgments
 This code base is a simplified / adapted version of that used by Parker et al. Old scripts can be found in [`./.legacy`](./.legacy).

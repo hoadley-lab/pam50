@@ -30,3 +30,21 @@ test_that("integration test from matrix input", {
     )
   expect_equal(out_df, pam50::pam50_testdata_assignments)
 })
+
+test_that("integration test from matrix centers", {
+  logger::log_threshold("ERROR", "pam50")
+
+  input <- pam50::pam50_testdata
+  centers <- matrixStats::rowMedians(input, na.rm = TRUE) |> as.matrix()
+  out_df <-
+    pam50::pam50(
+      input = input,
+      output_dir = NULL,
+      centers = centers,
+      impute = FALSE,
+      tumor_sizes = file.path("data", "pam50_testdata_samplesheet.tsv"),
+      include_normal = TRUE,
+      create_qc_figures = FALSE
+    )
+  expect_equal(out_df, pam50::pam50_testdata_assignments)
+})

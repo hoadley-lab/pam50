@@ -98,6 +98,60 @@ plot_pam50_heatmap <- function(input_df, input_matx, output_png = NULL) {
   ht
 }
 
+#' Plot a heatmap of per sample centroid correlations
+#'
+#' `plot_centroid_heatmap` creates a heatmap of centroid correlation for each sample.
+#'
+#' Input is the data.frame output of [pam50::pam50()].
+#' @param input_df [data.frame] or [matrix].
+#' @param output_png [character]. Optional ouput path to save plot.
+#' @returns A \pkg{ComplexHeatmap} object
+#' @export
+plot_centroid_heatmap <- function(input_df, output_png = NULL) {
+  scalefn <-
+    circlize::colorRamp2(
+      breaks = c(-1, 0, 1),
+      colors = c("blue", "#EEEEEE", "red"),
+      space = "RGB"
+    )
+
+  palettes <- c("assignment" = list(pam50::pam50_palette))
+  annot_df <- input_df[, "assignment", drop = FALSE]
+
+  col_annot <-
+    ComplexHeatmap::columnAnnotation(
+      df = annot_df,
+      col = palettes,
+      na_col = "#FFFFFF"
+    )
+
+  input_matx <- input_df[, 2:6] |> as.matrix()
+  rownames(input_matx) <- input_df$samplename
+  input_matx <- t(input_matx)
+  ht <- ComplexHeatmap::Heatmap(input_matx,
+    clustering_distance_rows = "pearson",
+    clustering_method_rows = "average",
+    show_row_dend = TRUE,
+    clustering_distance_columns = "pearson",
+    clustering_method_columns = "average",
+    show_row_names = TRUE,
+    column_names_gp = grid::gpar(fontsize = 6),
+    column_names_rot = 45,
+    col = scalefn,
+    top_annotation = col_annot,
+    row_title_side = "left",
+    heatmap_legend_param = list(title = "")
+  )
+
+  if (!is.null(output_png)) {
+    logger::log_debug("saving heatmap to: {output_png}")
+    grDevices::png(output_png, height = 9, width = 16, units = "in", res = 300)
+    ComplexHeatmap::draw(ht, merge_legends = TRUE)
+    grDevices::dev.off()
+  }
+  ht
+}
+
 #' PCA plot of PAM50 gene expression across samples.
 #'
 #' `plot_pam50_pca` creates a PCA plot annotated with assignmed PAM50 subtypes. \pkg{ggplot2} required.

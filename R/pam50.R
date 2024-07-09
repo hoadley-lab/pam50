@@ -154,17 +154,22 @@ pam50 <- function(input, output_dir = NULL, centers = "self", impute = FALSE,
   out_df <- out_df[, c(ncol(out_df), 1:(ncol(out_df) - 1))]
 
   if (create_qc_figures) {
-    .p <-
+    p_cor_box <-
       pam50::plot_cor_box(
         out_df,
         file.path(output_dir, "pam50_centroid_cors.png")
       )
-    .p <-
+    p_pam50_heatmap <-
       pam50::plot_pam50_heatmap(
         out_df, processed_input,
         file.path(output_dir, "pam50_heatmap.png")
       )
-    .p <-
+    p_centroid_heatmap <-
+      pam50::plot_centroid_heatmap(
+        out_df,
+        file.path(output_dir, "centroid_heatmap.png")
+      )
+    p_pam50_pca <-
       pam50::plot_pam50_pca(
         out_df, processed_input,
         file.path(output_dir, "pam50_pca.png")
